@@ -132,4 +132,4 @@ Streamlit
 
 💡 Author: [Vinay Lakkimsetti]
 📅 Year: 2025
-🔗 Repository: https://github.com/vinaylakkimsetti458/IntelliSearch
+🔗 Repository: https://github.com/vinaylakkimsetti458/Advanced-AI-Research-Assistant
