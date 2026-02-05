@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from newsapi import NewsApiClient
 from langchain_community.document_loaders import UnstructuredURLLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_groq import ChatGroq
 from langchain.chains import RetrievalQA
@@ -300,6 +300,7 @@ if query:
             st.write(final_answer)
         else:
             st.warning("⚠️ No answer could be generated. Please try again.")
+
 
 
 
