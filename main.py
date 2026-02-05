@@ -9,9 +9,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_groq import ChatGroq
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate
+from langchain.chains import RetrievalQA
 from langchain_community.utilities import WikipediaAPIWrapper, ArxivAPIWrapper
 from langchain_community.tools import WikipediaQueryRun, ArxivQueryRun
 from langchain.tools import DuckDuckGoSearchResults
@@ -177,28 +175,16 @@ def get_local_answer(query):
 
         # Initialize Retrieval Chain
         retriever = faiss_store.as_retriever()
-        prompt = ChatPromptTemplate.from_template(
-                """Answer the question using only the context below.
-                If the answer is not present, say you don't know.
-            
-                Context:
-                {context}
-            
-                Question: {input}
-                """
-        )
+        chain = RetrievalQA.from_chain_type(
+            llm=llm,
+            chain_type="stuff",
+            retriever=retriever)
+        
+        # Get the result from the retrieval chain
+        result = chain.run(query)
 
-        doc_chain = create_stuff_documents_chain(llm, prompt)
-        
-        retrieval_chain = create_retrieval_chain(
-            retriever=retriever,
-            combine_docs_chain=doc_chain
-        )
-        
-        result = retrieval_chain.invoke({"input": query})
-        
-        return extract_answer(result["answer"])
-
+        # Get the clean answer from the result
+        return extract_answer(result)
     
     except Exception as e:
         return f"Error retrieving local answer: {str(e)}"
@@ -314,8 +300,3 @@ if query:
             st.write(final_answer)
         else:
             st.warning("⚠️ No answer could be generated. Please try again.")
-
-
-
-
-
