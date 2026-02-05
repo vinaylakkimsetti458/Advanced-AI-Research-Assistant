@@ -1,8 +1,8 @@
 streamlit
 python-dotenv
 newsapi-python
-langchain==0.1.16
-langchain-core==0.1.43
+langchain==0.1.20
+langchain-core==0.1.53
 langchain-community==0.0.38
 langchain-text-splitters==0.0.1
 langchain-groq
@@ -11,3 +11,5 @@ faiss-cpu
 unstructured
 duckduckgo-search
 ddgs
+
+
